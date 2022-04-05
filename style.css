@@ -114,6 +114,13 @@ main
     top: 0;
     left: 0;
     background: #00000090;   
+    opacity: 0;
+    z-index: -1;
+}
+.modal.active
+{
+    opacity: 1;
+    z-index: 1;
 }
 .modal-content
 {
