@@ -19,10 +19,13 @@ document.getElementById('cadastrarCliente')
 document.getElementById('modalClose')
     .addEventListener('click', closeModal)
 
+const getLocalStorange = () => JSON.parse(localStorage.getItem("db_client")) ?? [];
+const setLocalStorange = () => localStorage.setItem("db_client", JSON.stringify(client));
+
 //CRUD - create read update delete
 const createClient = (client) => {
-    const db_client = JSON.parse(localStorage.getItem('db_client'));
-    db_client.push(client);
-    localStorage.setItem("db_cliente", JSON.stringify(client));
+    const dbClient = 
+    dbClient.push(client);
+    setLocalStorange(dbClient)
     
 }
