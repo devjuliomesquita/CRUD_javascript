@@ -85,21 +85,39 @@ const saveClient = () => {
             phone: document.getElementById('phone').value,
             city: document.getElementById('city').value
         }
-        createClient(client);
-        updateTable();
-        clearFields();
+        const index = document.getElementById('name').dataset.index;
+        if(index == "new"){
+            createClient(client);
+            updateTable();
+            clearFields();
+        } else{
+            updateClient(index, client);
+            updateTable();
+            clearFields();
+            closeModal();
+
+        }
+        
     }
 }
 
+const cancelClient = () => {
+    const response = confirm(`Deseja cancelar está operação???`);
+    if(response){
+        closeModal();
+    }
+}
 const fillFields = (client) => {
     document.getElementById('name').value = client.name;
     document.getElementById('email').value = client.email;
     document.getElementById('phone').value = client.phone;
     document.getElementById('city').value = client.city;
+    document.getElementById('name').dataset.index = client.index;
 };
 
 const editClient = (index) => {
     const client = readClient()[index];
+    client.index = index;
     fillFields(client);
     openModal();
 };
@@ -111,7 +129,13 @@ const editDelete = (event) =>{
         if(action == 'edit'){
             editClient(index);
         } else{
-
+            const client = readClient()[index];
+            const response = confirm(`Deseja excluir o cliente ${client.name}`);
+            if(response){
+                deleteClient(index);
+                updateTable();
+            }
+            
         }
     };
 };
@@ -126,6 +150,9 @@ document.getElementById('modalClose')
 
 document.getElementById('btnSave')
     .addEventListener('click', saveClient);
+
+document.getElementById('btnCancel')
+    .addEventListener('click', cancelClient);
 
 document.querySelector('#tableClient>tbody')
     .addEventListener('click', editDelete);
