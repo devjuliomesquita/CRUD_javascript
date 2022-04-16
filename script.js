@@ -3,15 +3,12 @@
 const openModal = () => document.getElementById('modal')
     .classList.add('active');
 
-const closeModal = () => document.getElementById('modal')
-    .classList.remove('active');
+const closeModal = () => {
+    document.getElementById('modal').classList.remove('active');
+    clearFields();
 
-const tempClient = {
-    nome:"teste",
-    email:"juliocesarmcamilo@gmail.com",
-    celular: "32165432165",
-    cidade: "Caucaia"
 }
+
 
 const getLocalStorange = () => JSON.parse(localStorage.getItem("db_client")) ?? [];
 const setLocalStorange = (dbClient) => localStorage.setItem("db_client", JSON.stringify(dbClient));
@@ -42,7 +39,41 @@ const deleteClient = (index) => {
 //MÉTODOS QUE VERIFICA SE OS CAMPOS SÃO VÁLIDOS
 const isValidFields = () => {
     return document.getElementById('form').reportValidity();
+};
+const clearFields = () => {
+    const fields = document.querySelectorAll('.modal-field');
+    fields.forEach(field => field.value = "");
 }
+
+//ACRESCENTANDO OS DADOS NA MINHA TABELA
+
+const createRow = (client) => {
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+        <td>${client.name}</td>
+        <td>${client.email}</td>
+        <td>${client.phone}</td>
+        <td>${client.city}</td>
+        <td>
+            <button type="button" class="button blue">editar</button>
+            <button type="button" class="button red">excluir</button>
+        </td>
+    `
+    document.querySelector('#tableClient>tbody').appendChild(newRow);
+};
+
+const clearTable = () => {
+    const rows = document.querySelectorAll('#tableClient>tbody tr');
+    rows.forEach(row =>row.parentNode.removeChild(row));
+};
+
+const updateTable = () => {
+    const dbClient = readClient();
+    clearTable();
+    dbClient.forEach(createRow);
+};
+
+updateTable();
 
 //INTERAÇÃO COM O LAYOUT
 const saveClient = () => {
@@ -55,6 +86,8 @@ const saveClient = () => {
             city: document.getElementById('city').value
         }
         createClient(client);
+        updateTable();
+        clearFields();
     }
 }
 
