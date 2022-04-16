@@ -47,7 +47,7 @@ const clearFields = () => {
 
 //ACRESCENTANDO OS DADOS NA MINHA TABELA
 
-const createRow = (client) => {
+const createRow = (client, index) => {
     const newRow = document.createElement('tr');
     newRow.innerHTML = `
         <td>${client.name}</td>
@@ -55,8 +55,8 @@ const createRow = (client) => {
         <td>${client.phone}</td>
         <td>${client.city}</td>
         <td>
-            <button type="button" class="button blue">editar</button>
-            <button type="button" class="button red">excluir</button>
+            <button type="button" class="button blue" id="edit-${index}">editar</button>
+            <button type="button" class="button red" id="delete-${index}">excluir</button>
         </td>
     `
     document.querySelector('#tableClient>tbody').appendChild(newRow);
@@ -91,6 +91,31 @@ const saveClient = () => {
     }
 }
 
+const fillFields = (client) => {
+    document.getElementById('name').value = client.name;
+    document.getElementById('email').value = client.email;
+    document.getElementById('phone').value = client.phone;
+    document.getElementById('city').value = client.city;
+};
+
+const editClient = (index) => {
+    const client = readClient()[index];
+    fillFields(client);
+    openModal();
+};
+
+const editDelete = (event) =>{
+    if(event.target.type == 'button'){
+        const [action, index] = event.target.id.split('-');
+
+        if(action == 'edit'){
+            editClient(index);
+        } else{
+
+        }
+    };
+};
+
 //CHAMANDO AS FUNÇÕES - EVENTOS
 
 document.getElementById('cadastrarCliente')
@@ -99,5 +124,8 @@ document.getElementById('cadastrarCliente')
 document.getElementById('modalClose')
     .addEventListener('click', closeModal)
 
-    document.getElementById('btnSave')
+document.getElementById('btnSave')
     .addEventListener('click', saveClient);
+
+document.querySelector('#tableClient>tbody')
+    .addEventListener('click', editDelete);
