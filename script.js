@@ -7,7 +7,7 @@ const closeModal = () => document.getElementById('modal')
     .classList.remove('active');
 
 const tempClient = {
-    nome:"Júlio César",
+    nome:"teste",
     email:"juliocesarmcamilo@gmail.com",
     celular: "32165432165",
     cidade: "Caucaia"
@@ -41,7 +41,7 @@ const deleteClient = (index) => {
 }
 //MÉTODOS QUE VERIFICA SE OS CAMPOS SÃO VÁLIDOS
 const isValidFields = () => {
-    document.getElementById('form').reportValidity();
+    return document.getElementById('form').reportValidity();
 }
 
 //INTERAÇÃO COM O LAYOUT
@@ -58,11 +58,13 @@ const saveClient = () => {
     }
 }
 
-//CHAMANDO AS FUNÇÕES
+//CHAMANDO AS FUNÇÕES - EVENTOS
+
 document.getElementById('cadastrarCliente')
     .addEventListener('click', openModal)
 
 document.getElementById('modalClose')
     .addEventListener('click', closeModal)
-document.getElementById('btnSave')
+
+    document.getElementById('btnSave')
     .addEventListener('click', saveClient);
